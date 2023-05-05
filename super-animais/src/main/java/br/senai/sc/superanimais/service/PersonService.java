@@ -46,6 +46,13 @@ public class PersonService {
         return person;
     }
 
-
+    public Person login(String email, String password) {
+        Optional<Person> optionalPerson = personRepository.findByEmailAndPassword(email, password);
+        if(optionalPerson.isPresent()) {
+            return  optionalPerson.get();
+        } else {
+            throw new RuntimeException("Usuário não encontrado");
+        }
+    }
 
 }

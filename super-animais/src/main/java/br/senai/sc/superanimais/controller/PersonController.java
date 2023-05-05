@@ -1,5 +1,6 @@
 package br.senai.sc.superanimais.controller;
 
+import br.senai.sc.superanimais.model.dto.LoginReqDTO;
 import br.senai.sc.superanimais.model.dto.PersonDTO;
 import br.senai.sc.superanimais.model.entity.Person;
 import br.senai.sc.superanimais.service.PersonService;
@@ -42,6 +43,12 @@ public class PersonController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Person> delete(@PathVariable Long id){
         return ResponseEntity.ok(personService.delete(id));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<Person> login(@RequestBody LoginReqDTO loginReqDTO) {
+        Person person = personService.login(loginReqDTO.getEmail(), loginReqDTO.getPassword());
+        return ResponseEntity.ok(person);
     }
 
 }

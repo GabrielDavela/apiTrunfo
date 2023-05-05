@@ -19,7 +19,7 @@ public class Person {
     private String name;
     private String email;
     private String password;
-    private ArrayList<Card> cards = new ArrayList<>();
+//    private ArrayList<Card> cards = new ArrayList<>();
 //    @Enumerated(EnumType.STRING)
 //    private Personas personas;
 }
