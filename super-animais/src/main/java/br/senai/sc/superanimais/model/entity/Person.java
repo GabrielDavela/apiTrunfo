@@ -1,11 +1,8 @@
 package br.senai.sc.superanimais.model.entity;
 
-import br.senai.sc.superanimais.model.enums.Personas;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
-
-import java.util.ArrayList;
 
 @Data
 @Entity
@@ -19,7 +16,7 @@ public class Person {
     private String name;
     private String email;
     private String password;
-//    private ArrayList<Card> cards = new ArrayList<>();
-//    @Enumerated(EnumType.STRING)
-//    private Personas personas;
+    @ManyToOne
+    @JsonIgnore
+    private Room room_id;
 }
