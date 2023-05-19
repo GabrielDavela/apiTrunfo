@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,11 +19,8 @@ public class Room {
     private Long gameId;
 
     @OneToMany(mappedBy = "room_id", cascade = CascadeType.ALL)
-    List<Person> personList;
+    private List<Person> players;
 
-//    @OneToOne
-//    private Person player1;
-//    @OneToOne
-//    private Person player2;
+
 
 }
