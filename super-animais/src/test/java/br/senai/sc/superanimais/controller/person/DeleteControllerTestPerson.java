@@ -26,7 +26,7 @@ public class DeleteControllerTestPerson {
     @Test
     public void deleteControllerTest() throws Exception {
         Long id = 1L;
-        Person person = new Person(1L, "Gabriel", "Gabriel@gmail.com", "123");
+        Person person = new Person(1L, "Gabriel", "Gabriel@gmail.com", "123", null);
 
         when(personService.delete(id))
                 .thenReturn(person);

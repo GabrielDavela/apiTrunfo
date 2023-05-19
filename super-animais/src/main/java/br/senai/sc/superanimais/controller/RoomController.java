@@ -16,7 +16,6 @@ import org.springframework.stereotype.Controller;
 public class RoomController {
 
     private final RoomService roomService;
-    private final PersonService personService;
 
     @MessageMapping("/room.createRoom")
     @SendTo("/topic/publicRoom")

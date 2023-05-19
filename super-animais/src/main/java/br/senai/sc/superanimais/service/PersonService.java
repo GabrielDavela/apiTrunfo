@@ -19,10 +19,10 @@ public class PersonService {
     public Person create(PersonDTO personDTO){
         Person person = new Person();
         BeanUtils.copyProperties(personDTO, person);
-        return create(person);
+        return save(person);
     }
 
-    public Person create(Person person){
+    public Person save(Person person){
         return personRepository.save(person);
     }
 

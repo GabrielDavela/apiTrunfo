@@ -18,5 +18,6 @@ public class Person {
     private String password;
 
     @ManyToOne
+    @JsonIgnore
     private Room room_id;
 }

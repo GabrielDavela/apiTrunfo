@@ -31,7 +31,7 @@ public class UpdateControlerTestPerson {
     @Test
     public void editControllerTest() throws Exception {
         Long id = 1L;
-        Person person = new Person(1L, "Gabriel", "Gabriel@gmail.com", "1234");
+        Person person = new Person(1L, "Gabriel", "Gabriel@gmail.com", "1234", null);
 
         PersonDTO personDTO = new PersonDTO("Gabriel", "Gabriel@gmail.com", "123");
 

@@ -27,7 +27,7 @@ public class ListOneControllerTestPerson {
     public void listOneControllerPersonTest() throws Exception {
         Long id = 1L; // trocar para long
 
-        Person person = new Person(1L, "Gabriel", "Gabriel@gmail.com", "123");
+        Person person = new Person(1L, "Gabriel", "Gabriel@gmail.com", "123", null);
 
         when(PersonService.listOne(id))
                 .thenReturn(person);

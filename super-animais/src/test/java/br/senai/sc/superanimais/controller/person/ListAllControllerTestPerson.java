@@ -30,8 +30,8 @@ public class ListAllControllerTestPerson {
 
     @Test
     public void listAllControllerPersonTest() throws Exception {
-        Person person = new Person(1L, "Gabriel", "Gabriel@gmail.com", "123");
-        Person person1 = new Person(2L, "Aline", "Aline@gmail.com", "123");
+        Person person = new Person(1L, "Gabriel", "Gabriel@gmail.com", "123", null);
+        Person person1 = new Person(2L, "Aline", "Aline@gmail.com", "123", null);
         List<Person> persons = List.of(person, person1);
 
         when(personService.listAll())

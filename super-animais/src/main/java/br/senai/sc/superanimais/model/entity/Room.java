@@ -18,9 +18,7 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long gameId;
 
-    @OneToMany(mappedBy = "room_id", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "room_id", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     private List<Person> players;
-
-
 
 }
