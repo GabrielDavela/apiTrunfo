@@ -19,8 +19,8 @@ public class RoomController {
 
     @MessageMapping("/room.createRoom")
     @SendTo("/topic/publicRoom")
-    public Room createRoom(@Payload RoomDTO dto) {
-        return roomService.createRoom(dto.getPlayerId());
+    public Room createRoom(@Payload Long playerId) {
+        return roomService.createRoom(playerId);
     }
 
 //    @MessageMapping("/room.enterRoom")

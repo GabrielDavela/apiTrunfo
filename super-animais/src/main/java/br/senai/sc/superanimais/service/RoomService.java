@@ -20,7 +20,7 @@ public class RoomService {
 
     public Room createRoom(Long idPlayer) {
         Room room = createRoom();
-        join(room.getGameId(), idPlayer);
+        room = join(room.getPlayerId(), idPlayer);
         return room;
     }
 
@@ -29,7 +29,7 @@ public class RoomService {
                 .orElseThrow(() -> new RoomNotFoundException("Sala não existe"));
     }
 
-    public void join(Long idRoom, Long idPlayer) {
+    public Room join(Long idRoom, Long idPlayer) {
         Room room = listOne(idRoom);
         if (room.getPlayers().size() == 2) {
             throw new RuntimeException("Sala cheia");
@@ -40,7 +40,7 @@ public class RoomService {
         personService.save(person);
 
         room.getPlayers().add(person);
-        roomRepository.save(room);
+        return roomRepository.save(room);
     }
 
 
