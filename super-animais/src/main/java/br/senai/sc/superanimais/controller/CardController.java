@@ -4,6 +4,7 @@ import br.senai.sc.superanimais.model.dto.CardDTO;
 import br.senai.sc.superanimais.model.entity.Card;
 import br.senai.sc.superanimais.service.CardService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,7 @@ public class CardController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Card>> listAll(){
+    public ResponseEntity<Page<Card>> listAll(){
         return ResponseEntity.ok(cardService.listAll());
     }
 
@@ -35,7 +36,7 @@ public class CardController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Card> editCard(@RequestBody CardDTO cardDTO, @PathVariable long id) {
-        return ResponseEntity.ok(cardService.uptade(cardDTO, id));
+        return ResponseEntity.ok(cardService.update(cardDTO, id));
     }
 
     @DeleteMapping("/{id}")

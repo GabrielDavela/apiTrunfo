@@ -5,6 +5,9 @@ import br.senai.sc.superanimais.model.entity.Card;
 import br.senai.sc.superanimais.repository.CardRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,8 +25,9 @@ public class CardService {
         return cardRepository.save(card);
     }
 
-    public List<Card> listAll() {
-        return cardRepository.findAll();
+    public Page<Card> listAll() {
+        Pageable pageable = PageRequest.of(0, 5);
+        return cardRepository.findAll(pageable);
     }
 
     public Card listOne(long id) {
@@ -40,9 +44,10 @@ public class CardService {
         return card;
     }
 
-    public Card uptade(CardDTO cardDTO, long id) {
+    public Card update(CardDTO cardDTO, long id) {
         Card card = listOne(id);
         BeanUtils.copyProperties(cardDTO, card);
         return cardRepository.save(card);
     }
+
 }

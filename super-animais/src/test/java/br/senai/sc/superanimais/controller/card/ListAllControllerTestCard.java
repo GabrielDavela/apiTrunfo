@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -34,7 +35,7 @@ public class ListAllControllerTestCard {
         List<Card> cards = List.of(card1, card2);
 
         when(cardService.listAll())
-                .thenReturn(cards);
+                .thenReturn((Page<Card>) cards);
 
         mockMvc.perform(get("/card"))
                 .andExpect(status().isOk())
