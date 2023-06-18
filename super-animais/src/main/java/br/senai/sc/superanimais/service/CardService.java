@@ -25,9 +25,12 @@ public class CardService {
         return cardRepository.save(card);
     }
 
-    public Page<Card> listAll() {
-        Pageable pageable = PageRequest.of(0, 5);
-        return cardRepository.findAll(pageable);
+    public Card save(Card card) {
+        return cardRepository.save(card);
+    }
+
+    public List<Card> listAll() {
+        return cardRepository.findAll();
     }
 
     public Card listOne(long id) {

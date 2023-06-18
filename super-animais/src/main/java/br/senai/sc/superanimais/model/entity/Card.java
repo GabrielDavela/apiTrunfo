@@ -18,10 +18,10 @@ public class Card {
     private double length;
     private int paws;
     private int gestation;
-    private String image;
+    private String profileImage;
 
-    @OneToOne
-    private Person person;
+//    @OneToOne
+//    private Person person;
     // Talvez não precise dessa relação
 
 }
