@@ -29,6 +29,6 @@ public class CardDTO {
     @Positive
     private int gestation;
     @NotNull
-    private String image;
+    private String imageRef;
 
 }

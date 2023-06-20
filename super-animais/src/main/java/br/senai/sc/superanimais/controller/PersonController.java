@@ -2,6 +2,7 @@ package br.senai.sc.superanimais.controller;
 
 import br.senai.sc.superanimais.model.dto.LoginReqDTO;
 import br.senai.sc.superanimais.model.dto.PersonDTO;
+import br.senai.sc.superanimais.model.entity.Card;
 import br.senai.sc.superanimais.model.entity.Person;
 import br.senai.sc.superanimais.service.PersonService;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
@@ -22,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -88,6 +90,7 @@ public class PersonController {
         }
         return ResponseEntity.ok(url);
     }
+
 
     @PostMapping
     public ResponseEntity<Person> create(@RequestBody @Valid PersonDTO personDTO){

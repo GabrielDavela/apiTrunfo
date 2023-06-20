@@ -4,6 +4,7 @@ import br.senai.sc.superanimais.model.dto.CardDTO;
 import br.senai.sc.superanimais.model.entity.Card;
 import br.senai.sc.superanimais.model.entity.Person;
 import br.senai.sc.superanimais.service.CardService;
+import br.senai.sc.superanimais.utils.AmazonUtil;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Regions;
@@ -23,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -44,30 +46,23 @@ public class CardController {
     private String bucketname;
 
     @PostMapping
-    public ResponseEntity<Card> create(@RequestBody CardDTO cardDTO){
+    public ResponseEntity<Card> create(@RequestBody CardDTO cardDTO) {
         return ResponseEntity.ok(cardService.create(cardDTO));
     }
 
     @PostMapping("/uploadImage/{id}")
-    public ResponseEntity<PutObjectRequest> post(@RequestParam MultipartFile image,
+    public ResponseEntity<PutObjectRequest> uploadImageFromCard(@RequestParam MultipartFile image,
                                                  @PathVariable Long id) throws IOException {
 
-        try{
-            BasicAWSCredentials basicAWSCredentials = new BasicAWSCredentials(chaveacesso, chavesecreta);
-            AmazonS3Client amazonS3Client = (AmazonS3Client) AmazonS3ClientBuilder.standard()
-                    .withRegion(Regions.US_EAST_1)
-                    .withCredentials(new AWSStaticCredentialsProvider(basicAWSCredentials))
-                    .build();
+        try {
+            AmazonS3Client amazonS3Client = AmazonUtil.returnAmazonS3Client(chaveacesso, chavesecreta);
+            UUID keyName = UUID.randomUUID();
 
-            String keyName = UUID.randomUUID().toString();
-
-            PutObjectRequest imageObject = new PutObjectRequest(bucketname, keyName, image.getInputStream(), null);
-            System.out.println(imageObject);
+            PutObjectRequest imageObject = new PutObjectRequest(bucketname, keyName.toString(), image.getInputStream(), null);
             amazonS3Client.putObject(imageObject);
 
             Card card = cardService.listOne(id);
-            card.setProfileImage(keyName);
-
+            card.setImageRef(keyName.toString());
             cardService.save(card);
         } catch (AmazonS3Exception e) {
             System.exit(0);
@@ -75,34 +70,47 @@ public class CardController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/s3/{keyName}")
-    public ResponseEntity<URL> list(@PathVariable String keyName) {
+    @GetMapping("/request/image/{keyName}")
+    public ResponseEntity<URL> listAUrlCard(@PathVariable String keyName) {
         URL url = null;
-        try{
-            BasicAWSCredentials basicAWSCredentials = new BasicAWSCredentials(chaveacesso, chavesecreta);
-            AmazonS3Client amazonS3Client = (AmazonS3Client) AmazonS3ClientBuilder.standard()
-                    .withRegion(Regions.US_EAST_1)
-                    .withCredentials(new AWSStaticCredentialsProvider(basicAWSCredentials))
-                    .build();
-
-            if(amazonS3Client.doesBucketExist(bucketname)){
+        try {
+            AmazonS3Client amazonS3Client = AmazonUtil.returnAmazonS3Client(chaveacesso, chavesecreta);
+            if (amazonS3Client.doesBucketExist(bucketname)) {
                 url = amazonS3Client.generatePresignedUrl(bucketname, keyName,
                         DateTime.now().plusDays(1).toDate());
             }
-
         } catch (AmazonS3Exception e) {
             System.exit(0);
         }
         return ResponseEntity.ok(url);
     }
 
+    @GetMapping("/request/image/all")
+    public ResponseEntity<List<URL>> listAllUrlsCards() {
+        List<URL> urls = new ArrayList<>();
+        try {
+            AmazonS3Client amazonS3Client = AmazonUtil.returnAmazonS3Client(chaveacesso, chavesecreta);
+            if (amazonS3Client.doesBucketExist(bucketname)) {
+                List<Card> cardList = cardService.listAll();
+                for (Card card : cardList) {
+                    URL url = amazonS3Client.generatePresignedUrl(bucketname, card.getImageRef(),
+                            DateTime.now().plusDays(1).toDate());
+                    urls.add(url);
+                }
+            }
+        } catch (AmazonS3Exception e) {
+            System.exit(0);
+        }
+        return ResponseEntity.ok(urls);
+    }
+
     @GetMapping
-    public ResponseEntity<List<Card>> listAll(){
+    public ResponseEntity<List<Card>> listAll() {
         return ResponseEntity.ok(cardService.listAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Card> listOne(@PathVariable long id){
+    public ResponseEntity<Card> listOne(@PathVariable long id) {
         return ResponseEntity.ok(cardService.listOne(id));
     }
 
