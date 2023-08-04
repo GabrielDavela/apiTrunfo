@@ -1,5 +1,6 @@
 package br.senai.sc.superanimais.security.service;
 
+import br.senai.sc.superanimais.security.model.PersonDetails;
 import br.senai.sc.superanimais.security.repository.PersonDetailsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +17,10 @@ public class JpaService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return pdr.findByPerson_Email(email);
+    }
+
+    public PersonDetails create(PersonDetails pd) {
+        return pdr.save(pd);
     }
 
 }

@@ -117,11 +117,11 @@ public class PersonController {
         return ResponseEntity.ok(personService.delete(id));
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<Person> login(@RequestBody LoginReqDTO loginReqDTO) {
-        Person person = personService.login(loginReqDTO.getEmail(), loginReqDTO.getPassword());
-        return ResponseEntity.ok(person);
-    }
+//    @PostMapping("/login")
+//    public ResponseEntity<Person> login(@RequestBody LoginReqDTO loginReqDTO) {
+//        Person person = personService.login(loginReqDTO.getEmail(), loginReqDTO.getPassword());
+//        return ResponseEntity.ok(person);
+//    }
 
 
 

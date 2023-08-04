@@ -3,10 +3,14 @@ package br.senai.sc.superanimais.service;
 import br.senai.sc.superanimais.model.dto.PersonDTO;
 import br.senai.sc.superanimais.model.entity.Person;
 import br.senai.sc.superanimais.repository.PersonRepository;
+import br.senai.sc.superanimais.security.model.PersonDetails;
+import br.senai.sc.superanimais.security.service.JpaService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,11 +19,23 @@ import java.util.Optional;
 public class PersonService {
 
     private final PersonRepository personRepository;
+    private JpaService jpaService;
 
     public Person create(PersonDTO personDTO){
         Person person = new Person();
         BeanUtils.copyProperties(personDTO, person);
-        return save(person);
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        person.setPassword(encoder.encode(person.getPassword()));
+
+        PersonDetails pd = new PersonDetails();
+        pd.setPerson(person);
+        pd.setEnabled(true);
+        pd.setAuthorities(new ArrayList<>());
+        pd.setAccountNonLocked(true);
+        pd.setCredentialsNonExpired(true);
+        pd.setAccountNonExpired(true);
+
+        return jpaService.create(pd).getPerson();
     }
 
     public Person save(Person person){

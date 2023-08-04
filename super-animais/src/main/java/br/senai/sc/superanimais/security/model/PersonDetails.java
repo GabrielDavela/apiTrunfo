@@ -30,11 +30,11 @@ public class PersonDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return person.getEmail();
+        return person.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return person.getPassword();
+        return person.getEmail();
     }
 }
