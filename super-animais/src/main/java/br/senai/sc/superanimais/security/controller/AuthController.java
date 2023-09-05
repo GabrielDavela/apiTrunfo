@@ -1,6 +1,9 @@
 package br.senai.sc.superanimais.security.controller;
 
 import br.senai.sc.superanimais.security.model.Login;
+import br.senai.sc.superanimais.security.model.PersonDetails;
+import br.senai.sc.superanimais.security.util.CookieUtil;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
@@ -29,24 +32,20 @@ public class AuthController {
     private ResponseEntity<?> login(@RequestBody Login login,
                                     HttpServletRequest req,
                                     HttpServletResponse res) {
-        SecurityContextRepository scr = new HttpSessionSecurityContextRepository();
+
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken
                 (login.getEmail(), login.getPassword());
+
         Authentication authentication = am.authenticate(token);
 
+        System.out.println(token);
         if (authentication.isAuthenticated()) {
-            SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
-            securityContext.setAuthentication(authentication);
-            scr.saveContext(securityContext, req, res);
-            System.out.println(authentication.getPrincipal());
+            PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+            Cookie cookie = CookieUtil.generateCookie(personDetails);
+            res.addCookie(cookie);
             return ResponseEntity.ok(authentication.getPrincipal());
         }
         return ResponseEntity.status(401).build();
-    }
-
-    @GetMapping("/login")
-    private ResponseEntity<?> teste() {
-        return ResponseEntity.ok("Teste");
     }
 
 }

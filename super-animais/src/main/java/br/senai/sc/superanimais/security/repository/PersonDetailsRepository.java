@@ -1,5 +1,6 @@
 package br.senai.sc.superanimais.security.repository;
 
+import br.senai.sc.superanimais.model.entity.Person;
 import br.senai.sc.superanimais.security.model.PersonDetails;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

@@ -11,24 +11,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CardDTO {
 
-    @NotNull
     private String name;
-    @NotNull
     @Positive
     private int lifeTime;
-    @NotNull
     @Positive
     private double weight;
-    @NotNull
     @Positive
     private double length;
-    @NotNull
     @Positive
     private int paws;
-    @NotNull
     @Positive
     private int gestation;
-    @NotNull
     private String imageRef;
 
 }
